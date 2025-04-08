@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
+dotenv.config({ path: ".env.development.local"});
+
 import app from "../app.ts";
 import logger from "../utils/logger.ts";
 import connectDB from "../db.ts";
 
-dotenv.config({ path: ".env.development.local"});
 
 const PORT = process.env.PORT || 3000;
 

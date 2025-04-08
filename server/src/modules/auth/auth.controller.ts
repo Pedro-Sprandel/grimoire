@@ -18,3 +18,17 @@ export const loginController = async (req: Request, res: Response, next: NextFun
     next(error);
   }
 };
+
+export const logoutController = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({message: "Logged out successfully"});
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMeController = async (req: Request, res: Response) => {
+  const user = req.user;
+  res.status(200).json({user});
+};
