@@ -14,7 +14,6 @@ export default defineConfig([
       semi: ["error", "always"],
       indent: ["error", 2],
       quotes: ["error", "double"],
-      semi: ["error", "always"],
       "comma-dangle": ["error", "never"],
       eqeqeq: "error",
       "no-trailing-spaces": "error",
@@ -22,8 +21,7 @@ export default defineConfig([
       curly: "error",
       "default-case": "error",
       "global-require": "error",
-      "handle-callback-err": "warn",
-      "no-unused-vars": "warn"
+      "handle-callback-err": "warn"
     }
   }
 ]);
