@@ -21,7 +21,17 @@ export default defineConfig([
       curly: "error",
       "default-case": "error",
       "global-require": "error",
-      "handle-callback-err": "warn"
+      "handle-callback-err": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+          args: "after-used"
+        }
+      ]
     }
   }
 ]);

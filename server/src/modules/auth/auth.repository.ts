@@ -5,6 +5,16 @@ export const insertUser = async (username: string, email: string, password: stri
   return await user.save();
 };
 
-export const findUserByEmailOrUsername = async (email: string, username: string) => {
-  return await User.findOne({ $or: [{ email }, { username }] });
+type QueryCondition = { email?: string, username?: string };
+
+export const findUserByEmailOrUsername = async (email?: string, username?: string) => {
+  const query: QueryCondition[] = [];
+  if (email) {query.push({ email });}
+  if (username) {query.push({ username });}
+
+  if (query.length === 0) {
+    return null;
+  }
+
+  return await User.findOne({ $or: query });
 };

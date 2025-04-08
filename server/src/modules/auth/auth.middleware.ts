@@ -20,3 +20,21 @@ export const validateRegisterBody = (req: Request, res: Response, next: NextFunc
     }
   }
 };
+
+const loginSchema = z.object({
+  email: z.string().email().min(5),
+  password: z.string().min(6)
+});
+
+export const validateLoginBody = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    loginSchema.parse(req.body);
+    next();
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      next(createHttpError(400, err.errors[0].message));
+    } else {
+      next(createHttpError(500, "Internal server error"));
+    }
+  }
+};
