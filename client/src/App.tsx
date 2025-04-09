@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import { AuthProvider } from "./contexts/authProvider";
-import ProtectedRoute from "./pages/ProtectedRoute";
+import ProtectedRoute from "./components/wrappers/ProtectedRoute";
 import LoginPage from "./pages/LoginPage";
+import Home from "./pages/Home";
+import "./styles/tailwind.css";
+import Layout from "./components/wrappers/Layout";
 
 function App() {
   return (
@@ -11,7 +14,9 @@ function App() {
         <Routes>
           <Route path="/" element={
             <ProtectedRoute>
-              <p>Home</p>
+              <Layout>
+                <Home />
+              </Layout>
             </ProtectedRoute>
           } />
           <Route path="/login" element={<LoginPage />} />

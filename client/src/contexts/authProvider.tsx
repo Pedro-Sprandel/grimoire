@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const checkAuth = async () => {
       try {
         await fetchUser();
-      } catch (error) {
+      } catch (_) {
         setUser(null);
       } finally {
         setLoading(false);
@@ -45,8 +45,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const data = await response.json();
       setUser(data);
-    } catch (error) {
-      console.error("Error fetching user:", error);
+    } catch (_) {
       setUser(null);
     }
   };

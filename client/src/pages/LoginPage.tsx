@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { showNotification } from "../utils/showNotification";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -15,12 +16,16 @@ const LoginPage: React.FC = () => {
       await login(email, password);
       navigate("/");
     } catch (err) {
-      alert(`Login failed ${err}`);
+      if (err instanceof Error) {
+        showNotification(err.message, "error");
+      } else {
+        showNotification("Unknown error", "error");
+      }
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="bg-gray-700 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md p-8 bg-white rounded shadow-md">
         <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">Login</h2>
         <form onSubmit={handleSubmit}>
@@ -54,7 +59,7 @@ const LoginPage: React.FC = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="cursor-pointer w-full px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Login
           </button>

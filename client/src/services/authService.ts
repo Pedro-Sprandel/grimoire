@@ -13,7 +13,11 @@ export const loginService = async (email: string, password: string) => {
       const errorData = await response.json();
       throw new Error(errorData.message || "Login failed");
     }
-  } catch (error) {
-    console.error("Error during login:", error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("Unknown error");
+    }
   }
 };
