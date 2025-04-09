@@ -5,8 +5,8 @@ import { authenticateJWT } from "../../middlewares/authMiddleware.ts";
 
 const router = Router();
 
-router.post("/register", validateRegisterBody, registerUserController);
-router.post("/logout", logoutController);
+router.post("/register", authenticateJWT, validateRegisterBody, registerUserController);
+router.post("/logout", authenticateJWT, logoutController);
 router.post("/login", validateLoginBody, loginController);
 router.get("/me", authenticateJWT, getMeController);
 

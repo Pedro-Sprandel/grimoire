@@ -1,4 +1,4 @@
-import User from "../../models/User.ts";
+import User from "../../models/UserModel.ts";
 
 export const insertUser = async (username: string, email: string, password: string) => {
   const user = new User({ username, email, password});

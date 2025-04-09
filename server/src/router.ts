@@ -2,6 +2,7 @@ import { Router } from "express";
 import type { Request, Response } from "express";
 import authRouter from "./modules/auth/auth.routes.ts";
 import { handleError } from "./middlewares/errorMiddleware.ts";
+import booksRouter from "./modules/books/books.routes.ts";
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.get("/", (_req: Request, res: Response) => {
 });
 
 router.use(authRouter);
-
+router.use("/books", booksRouter);
 router.use(handleError);
 
 export default router;
