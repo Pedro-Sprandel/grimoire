@@ -13,7 +13,8 @@ export const getBooks = async () => {
 
   const books = await BookModel.find();
 
-  redisClient.set(CACHE_KEY, JSON.stringify(books), { EX: 3600 })
+  redisClient
+    .set(CACHE_KEY, JSON.stringify(books), { EX: 3600 })
     .catch((error) => {
       logger.error("Error setting cache for get books:", error);
     });
@@ -38,10 +39,9 @@ export const getBookById = async (id: string) => {
     const book = books.find((book: { id: string }) => book.id === id);
 
     if (book) {
-      redisClient.set(cacheKey, JSON.stringify(book))
-        .catch((error) => {
-          logger.error("Error setting cache for get book by ID:", error);
-        });
+      redisClient.set(cacheKey, JSON.stringify(book)).catch((error) => {
+        logger.error("Error setting cache for get book by ID:", error);
+      });
 
       return book;
     }

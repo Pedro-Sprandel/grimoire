@@ -2,7 +2,11 @@ import type { NextFunction, Request, Response } from "express";
 import { getBookById, getBooks } from "./books.repository.ts";
 import createHttpError from "http-errors";
 
-export const getBooksController = async (req: Request, res: Response, next: NextFunction) => {
+export const getBooksController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const books = await getBooks();
 
@@ -12,7 +16,11 @@ export const getBooksController = async (req: Request, res: Response, next: Next
   }
 };
 
-export const getBookByIdController = async (req: Request, res: Response, next: NextFunction) => {
+export const getBookByIdController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const bookId = req.params.id;
     const book = await getBookById(bookId);

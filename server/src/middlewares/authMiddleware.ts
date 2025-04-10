@@ -3,7 +3,11 @@ import { Request, Response, NextFunction } from "express";
 import logger from "../utils/logger.ts";
 import createHttpError from "http-errors";
 
-export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
+export const authenticateJWT = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   const token = req.cookies?.token;
 
   if (!token) {

@@ -5,7 +5,7 @@ winston.addColors({
   warn: "yellow",
   info: "green",
   http: "magenta",
-  debug: "blue"
+  debug: "blue",
 });
 
 const logger = winston.createLogger({
@@ -15,16 +15,16 @@ const logger = winston.createLogger({
     winston.format.colorize(),
     winston.format.printf(({ level, message, timestamp }) => {
       return `${timestamp} [${level}]: ${message}`;
-    })
+    }),
   ),
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
       format: winston.format.uncolorize(),
       filename: "logs/error.log",
-      level: "error"
-    })
-  ]
+      level: "error",
+    }),
+  ],
 });
 
 export default logger;

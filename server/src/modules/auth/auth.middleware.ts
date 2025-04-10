@@ -5,10 +5,14 @@ import { z } from "zod";
 const registerSchema = z.object({
   email: z.string().email().min(5),
   username: z.string().min(3),
-  password: z.string().min(6)
+  password: z.string().min(6),
 });
 
-export const validateRegisterBody = (req: Request, _res: Response, next: NextFunction) => {
+export const validateRegisterBody = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
   try {
     registerSchema.parse(req.body);
     next();
@@ -23,10 +27,14 @@ export const validateRegisterBody = (req: Request, _res: Response, next: NextFun
 
 const loginSchema = z.object({
   email: z.string().email().min(5),
-  password: z.string().min(6)
+  password: z.string().min(6),
 });
 
-export const validateLoginBody = (req: Request, _res: Response, next: NextFunction) => {
+export const validateLoginBody = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
   try {
     loginSchema.parse(req.body);
     next();

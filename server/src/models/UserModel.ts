@@ -5,38 +5,39 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true
+    trim: true,
   },
   email: {
     type: String,
     required: true,
     unique: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
-  books: [{
-    bookId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Book"
+  books: [
+    {
+      bookId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Book",
+      },
+      title: String,
+      checkoutDate: {
+        type: Date,
+        default: Date.now,
+      },
+      returnDate: Date,
     },
-    title: String,
-    checkoutDate: {
-      type: Date,
-      default: Date.now
-    },
-    returnDate: Date
-  }]
+  ],
 });
 
 const User = mongoose.model("User", userSchema);
 
 export default User;
-

@@ -11,7 +11,7 @@ const BookSchema = new mongoose.Schema({
   language: String,
   description: String,
   coverImageUrl: String,
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
 });
 
 const BookModel = mongoose.model("Book", BookSchema);

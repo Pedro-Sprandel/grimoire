@@ -8,7 +8,7 @@ import { getImageController } from "./modules/images/image.controller.ts";
 const router = Router();
 
 router.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "API is running..."});
+  res.json({ message: "API is running..." });
 });
 
 router.get("/image", getImageController);

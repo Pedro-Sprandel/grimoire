@@ -1,16 +1,27 @@
 import User from "../../models/UserModel.ts";
 
-export const insertUser = async (username: string, email: string, password: string) => {
-  const user = new User({ username, email, password});
+export const insertUser = async (
+  username: string,
+  email: string,
+  password: string,
+) => {
+  const user = new User({ username, email, password });
   return await user.save();
 };
 
-type QueryCondition = { email?: string, username?: string };
+type QueryCondition = { email?: string; username?: string };
 
-export const findUserByEmailOrUsername = async (email?: string, username?: string) => {
+export const findUserByEmailOrUsername = async (
+  email?: string,
+  username?: string,
+) => {
   const query: QueryCondition[] = [];
-  if (email) {query.push({ email });}
-  if (username) {query.push({ username });}
+  if (email) {
+    query.push({ email });
+  }
+  if (username) {
+    query.push({ username });
+  }
 
   if (query.length === 0) {
     return null;
