@@ -21,7 +21,6 @@ export const getImageController = async (req: Request, res: Response) => {
       return;
     }
 
-    logger.info(`Cache miss for image: ${url}`);
     const response = await fetch(url);
 
     if (!response.ok) {

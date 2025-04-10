@@ -8,7 +8,7 @@ const registerSchema = z.object({
   password: z.string().min(6)
 });
 
-export const validateRegisterBody = (req: Request, res: Response, next: NextFunction) => {
+export const validateRegisterBody = (req: Request, _res: Response, next: NextFunction) => {
   try {
     registerSchema.parse(req.body);
     next();
@@ -26,7 +26,7 @@ const loginSchema = z.object({
   password: z.string().min(6)
 });
 
-export const validateLoginBody = (req: Request, res: Response, next: NextFunction) => {
+export const validateLoginBody = (req: Request, _res: Response, next: NextFunction) => {
   try {
     loginSchema.parse(req.body);
     next();
