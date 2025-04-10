@@ -16,7 +16,7 @@ const BookCard: React.FC<BookCardProps> = (props) => {
   };
 
   return (
-    <div key={book._id} onClick={onClickBookCard} className="curosr-pointer w-[256px] bg-stone-100 rounded flex flex-col items-center justify-between">
+    <div key={book._id} onClick={onClickBookCard} className="cursor-pointer w-[256px] bg-gray-300 rounded flex flex-col items-center justify-between">
       {isLoading && (
         <div>Loading...</div>
       )}
