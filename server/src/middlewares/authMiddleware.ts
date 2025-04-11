@@ -6,7 +6,7 @@ import createHttpError from "http-errors";
 export const authenticateJWT = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const token = req.cookies?.token;
 

@@ -7,7 +7,7 @@ import type { Response } from "express";
 export const registerUser = async (
   username: string,
   email: string,
-  password: string,
+  password: string
 ) => {
   if (!username || !password) {
     throw createHttpError(400, "Credentials required");
@@ -26,7 +26,7 @@ export const registerUser = async (
 export const loginUser = async (
   email: string,
   password: string,
-  res: Response,
+  res: Response
 ) => {
   if (!email || !password) {
     throw createHttpError(400, "Credentials required");
@@ -48,7 +48,7 @@ export const loginUser = async (
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 60 * 60 * 1000,
+    maxAge: 60 * 60 * 1000
   });
 
   const { password: _, ...userWithoutPassword } = user.toObject();

@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 const server = app.listen(PORT, () =>
-  logger.info(`Server started on port ${PORT}`),
+  logger.info(`Server started on port ${PORT}`)
 );
 
 server.on("error", (error: Error) => {

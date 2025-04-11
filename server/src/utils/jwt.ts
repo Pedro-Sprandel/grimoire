@@ -7,7 +7,7 @@ export const generateToken = (payload: {
 }): string => {
   if (!process.env.JWT_SECRET || !process.env.JWT_EXPIRATION_TIME) {
     throw new Error(
-      "JWT_SECRET and JWT_EXPIRATION_TIME must be set in the environment variables",
+      "JWT_SECRET and JWT_EXPIRATION_TIME must be set in the environment variables"
     );
   }
 

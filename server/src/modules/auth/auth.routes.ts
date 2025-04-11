@@ -4,7 +4,7 @@ import {
   getMeController,
   loginController,
   logoutController,
-  registerUserController,
+  registerUserController
 } from "./auth.controller.ts";
 import { authenticateJWT } from "../../middlewares/authMiddleware.ts";
 
@@ -14,7 +14,7 @@ router.post(
   "/register",
   authenticateJWT,
   validateRegisterBody,
-  registerUserController,
+  registerUserController
 );
 router.post("/logout", authenticateJWT, logoutController);
 router.post("/login", validateLoginBody, loginController);

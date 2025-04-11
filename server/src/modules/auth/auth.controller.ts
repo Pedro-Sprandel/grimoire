@@ -4,13 +4,13 @@ import { loginUser, registerUser } from "./auth.service.ts";
 export const registerUserController = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const user = await registerUser(
       req.body.username,
       req.body.email,
-      req.body.password,
+      req.body.password
     );
     res.status(201).json({ user });
   } catch (error) {
@@ -21,7 +21,7 @@ export const registerUserController = async (
 export const loginController = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const user = await loginUser(req.body.email, req.body.password, res);
@@ -34,7 +34,7 @@ export const loginController = async (
 export const logoutController = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     res.clearCookie("token");

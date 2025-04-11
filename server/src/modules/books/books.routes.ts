@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   getBookByIdController,
-  getBooksController,
+  getBooksController
 } from "./books.controller.ts";
 
 const router = Router();

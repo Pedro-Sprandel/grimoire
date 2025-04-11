@@ -5,7 +5,7 @@ import createHttpError from "http-errors";
 export const getBooksController = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const books = await getBooks();
@@ -19,7 +19,7 @@ export const getBooksController = async (
 export const getBookByIdController = async (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   try {
     const bookId = req.params.id;
