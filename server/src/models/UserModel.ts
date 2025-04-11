@@ -5,37 +5,47 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true,
+    trim: true
   },
   email: {
     type: String,
     required: true,
     unique: true,
     trim: true,
-    lowercase: true,
+    lowercase: true
   },
   password: {
     type: String,
-    required: true,
+    required: true
   },
   createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now
   },
   books: [
     {
       bookId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Book",
+        required: true,
+        unique: true
       },
-      title: String,
-      checkoutDate: {
-        type: Date,
-        default: Date.now,
+      title: {
+        type: String,
+        trim: true
       },
-      returnDate: Date,
-    },
-  ],
+      comment: {
+        type: String,
+        trim: true
+      },
+      rating: {
+        type: Number,
+        min: 0.5,
+        max: 5,
+        required: true
+      }
+    }
+  ]
 });
 
 const User = mongoose.model("User", userSchema);
