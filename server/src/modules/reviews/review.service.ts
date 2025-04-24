@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import User from "../../models/UserModel.ts";
+import { getUserBooks } from "./review.repository.ts";
 
 /**
  * Verifica se o usuário existe e se o bookId já está associado a ele.
@@ -11,7 +11,7 @@ export const validateUniqueBookForUser = async (
   userId: string,
   bookId: string
 ) => {
-  const user = await User.findById(userId).select("books");
+  const user = await getUserBooks(userId);
   if (!user) {
     throw createHttpError(404, "User not found");
   }
@@ -22,4 +22,15 @@ export const validateUniqueBookForUser = async (
   if (bookExists) {
     throw createHttpError(409, "Book ID must be unique for this user");
   }
+};
+
+export const getUserReview = async (userId: string, bookId: string) => {
+  const user = await getUserBooks(userId);
+  if (!user) {
+    throw createHttpError(404, "User not found");
+  }
+
+  const review = user.books.find((book) => book.bookId.toString() === bookId);
+
+  return review;
 };

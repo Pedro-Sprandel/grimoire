@@ -5,7 +5,7 @@ import { useImageLoader } from "../hooks/useImageLoader";
 const BookPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { book, loading, error } = useBook(id);
-  const { imageSrc } = useImageLoader(id || "");
+  const { imageSrc } = useImageLoader(book?.coverImageUrl || "");
   const navigate = useNavigate();
 
   if (loading) {

@@ -1,19 +1,16 @@
 import { Router } from "express";
-import type { Request, Response } from "express";
-import authRouter from "./modules/auth/auth.routes.ts";
+import { authenticateJWT } from "./middlewares/authMiddleware.ts";
 import { handleError } from "./middlewares/errorMiddleware.ts";
+import authRouter from "./modules/auth/auth.routes.ts";
 import booksRouter from "./modules/books/books.routes.ts";
-import { getImageController } from "./modules/images/image.controller.ts";
 import reviewsRouter from "./modules/reviews/review.route.ts";
+import imagesRouter from "./modules/images/image.route.ts";
 
 const router = Router();
 
-router.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "API is running..." });
-});
-
-router.get("/image", getImageController);
 router.use(authRouter);
+router.use(authenticateJWT);
+router.use("/image", imagesRouter);
 router.use("/books", booksRouter);
 router.use("/reviews", reviewsRouter);
 router.use(handleError);

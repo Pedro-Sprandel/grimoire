@@ -8,9 +8,12 @@ export const useImageLoader = (src: string) => {
   useEffect(() => {
     const loadImage = async () => {
       try {
-        const response = await axiosInstance.get(`http://localhost:3000/api/image?url=${encodeURIComponent(src)}`, {
-          responseType: "blob"
-        });
+        const response = await axiosInstance.get(
+          `http://localhost:3000/api/image/${encodeURIComponent(src)}`,
+          {
+            responseType: "blob"
+          }
+        );
 
         const imageUrl = URL.createObjectURL(response.data);
         setImageSrc(imageUrl);

@@ -8,8 +8,13 @@ export const handleError = (
   res: Response,
   _next: NextFunction
 ) => {
-  logger.error(err.message);
-  logger.error(err.stack);
+  if (err.status && err.status < 500) {
+    logger.warn(err.message);
+    logger.warn(err.stack);
+  } else {
+    logger.error(err.message);
+    logger.error(err.stack);
+  }
   res.status(err.status || 500).json({
     message: err.message || "Internal Server Error"
   });

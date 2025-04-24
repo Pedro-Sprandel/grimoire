@@ -22,3 +22,7 @@ export const addReviewToUser = (
     }
   );
 };
+
+export const getUserBooks = (userId: string) => {
+  return User.findById(userId).select("books");
+};

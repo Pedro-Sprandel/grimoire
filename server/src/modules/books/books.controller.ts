@@ -22,11 +22,12 @@ export const getBookByIdController = async (
   next: NextFunction
 ) => {
   try {
-    const bookId = req.params.id;
-    const book = await getBookById(bookId);
+    const { id } = req.params;
+
+    const book = await getBookById(id);
 
     if (!book) {
-      next(createHttpError(404, "Book not found"));
+      return next(createHttpError(404, "Book not found"));
     }
 
     res.status(200).json(book);

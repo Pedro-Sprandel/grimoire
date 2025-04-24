@@ -47,7 +47,7 @@ const Home: React.FC = () => {
     <div className="min-h-screen bg-gray-700 p-24">
       <div className="flex flex-wrap justify-center gap-4">
         {books.map((book) => (
-          <BookCard book={book} />
+          <BookCard book={book} key={book._id} />
         ))}
       </div>
     </div>

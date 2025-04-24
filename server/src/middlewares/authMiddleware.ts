@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import logger from "../utils/logger.ts";
 import createHttpError from "http-errors";
 
 export const authenticateJWT = (
@@ -11,7 +10,7 @@ export const authenticateJWT = (
   const token = req.cookies?.token;
 
   if (!token) {
-    next(createHttpError(401, "Authentication required"));
+    return next(createHttpError(401, "Authentication required"));
   }
 
   try {
@@ -19,7 +18,14 @@ export const authenticateJWT = (
     req.user = decoded;
     next();
   } catch (error) {
-    logger.error("JWT verification failed:", error);
-    next(createHttpError(403, "Invalid or expired token"));
+    if (
+      error instanceof jwt.JsonWebTokenError ||
+      error instanceof jwt.TokenExpiredError ||
+      error instanceof jwt.NotBeforeError
+    ) {
+      return next(createHttpError(401, "Authentication required"));
+    }
+
+    next(error);
   }
 };
