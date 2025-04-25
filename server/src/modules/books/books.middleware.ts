@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import createHttpError from "http-errors";
 import { isValidObjectId } from "mongoose";
-import { validateUniqueBookForUser } from "./review.service.ts";
+import { validateUniqueBookForUser } from "./books.service.ts";
 import logger from "../../utils/logger.ts";
 
 const VALID_RATINGS = new Set([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]);
@@ -11,11 +11,12 @@ export const validateAddReviewBody = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!req.body?.bookId || !req.body?.rating) {
+  const bookId = req.params.bookId;
+  if (!bookId || !req.body?.rating) {
     return next(createHttpError(400, "Missing required fields"));
   }
 
-  const { bookId, title = undefined, comment = undefined, rating } = req.body;
+  const { title = undefined, comment = undefined, rating } = req.body;
 
   const userId = req.user;
 

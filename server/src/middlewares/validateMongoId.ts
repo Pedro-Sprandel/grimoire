@@ -7,11 +7,11 @@ export const validateMongoIdFromParam = (
   res: Response,
   next: NextFunction
 ) => {
-  const { id = null } = req.params;
+  Object.values(req.params).forEach((id) => {
+    if (!isValidObjectId(id)) {
+      return next(createHttpError(400, `Invalid MongoDB Id: ${id}`));
+    }
+  });
 
-  if (isValidObjectId(id)) {
-    return next();
-  }
-
-  next(createHttpError(400, `Invalid MongoDB Id: ${id}`));
+  next();
 };

@@ -10,17 +10,16 @@ export const useSubmitReview = () => {
     bookId: string,
     rating: number,
     title: string,
-    comment?: string | null
+    comment?: string
   ) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await axiosInstance.post("reviews/", {
-        bookId,
+      const response = await axiosInstance.post(`/books/${bookId}/reviews`, {
         rating,
         title,
-        ...(comment ? { comment } : {})
+        comment
       });
 
       return response.data;

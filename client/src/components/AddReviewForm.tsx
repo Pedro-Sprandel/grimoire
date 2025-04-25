@@ -22,9 +22,8 @@ const AddReviewForm: React.FC<AddReviewFormProps> = ({ bookId }) => {
   });
 
   const onSubmit = (data: ReviewFormData) => {
-    console.log("Submitting review:", data);
-    submitReview(bookId, data.rating, data.comment);
-    // reset();
+    submitReview(bookId, data.rating, data.title, data.comment);
+    reset();
   };
 
   return (
