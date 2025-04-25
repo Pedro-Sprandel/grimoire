@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useBook } from "../hooks/useBook";
 import { useImageLoader } from "../hooks/useImageLoader";
+import AddReviewForm from "../components/AddReviewForm";
 
 const BookPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id = "" } = useParams<{ id: string }>();
   const { book, loading, error } = useBook(id);
   const { imageSrc } = useImageLoader(book?.coverImageUrl || "");
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const BookPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-700 p-8 flex flex-col items-center">
+    <div className="min-h-screen gap-12 bg-gray-700 p-8 flex flex-col items-center">
       <div className="max-w-4xl w-full bg-gray-300 shadow-md rounded-lg p-6">
         <div className="flex flex-col md:flex-row gap-6">
           <div className="flex-shrink-0">
@@ -45,6 +46,7 @@ const BookPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <AddReviewForm bookId={id} />
     </div>
   );
 };

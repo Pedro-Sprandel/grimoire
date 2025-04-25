@@ -15,15 +15,11 @@ export const validateAddReviewBody = async (
     return next(createHttpError(400, "Missing required fields"));
   }
 
-  const {
-    userId,
-    bookId,
-    title = undefined,
-    comment = undefined,
-    rating
-  } = req.body;
+  const { bookId, title = undefined, comment = undefined, rating } = req.body;
 
-  if (!isValidObjectId(userId)) {
+  const userId = req.user;
+
+  if (!userId || !isValidObjectId(userId)) {
     return next(createHttpError(400, "Invalid user ID format"));
   }
 

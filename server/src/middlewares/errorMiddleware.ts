@@ -9,8 +9,8 @@ export const handleError = (
   _next: NextFunction
 ) => {
   if (err.status && err.status < 500) {
-    logger.warn(err.message);
-    logger.warn(err.stack);
+    // logger.warn(err.message);
+    // logger.warn(err.stack);
   } else {
     logger.error(err.message);
     logger.error(err.stack);

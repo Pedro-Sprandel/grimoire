@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { addReviewToUser } from "./review.repository.ts";
+import { addReview } from "./review.repository.ts";
 import { removeUndefinedFields } from "../../utils/format.ts";
 import { getUserReview } from "./review.service.ts";
 import createHttpError from "http-errors";
@@ -10,22 +10,21 @@ export const addReviewController = async (
   next: NextFunction
 ) => {
   try {
-    const {
-      userId,
-      bookId,
-      title = undefined,
-      comment = undefined,
-      rating
-    } = req.body;
+    const { bookId, title = undefined, comment = undefined, rating } = req.body;
 
+    const userId = req.user;
+    if (!userId) {
+      return next(createHttpError(401, "Authentication required"));
+    }
     const newReview = removeUndefinedFields({
+      userId,
       bookId,
       title,
       comment,
       rating
     });
 
-    await addReviewToUser(userId, newReview);
+    await addReview(newReview);
 
     res.status(201).json({
       message: "Review added successfully",
@@ -43,7 +42,7 @@ export const getUserReviewController = async (
 ) => {
   try {
     const { bookId } = req.params;
-    const userId = req.user?.id;
+    const userId = req.user;
 
     if (!userId) {
       return next(createHttpError(401, "Authentication required"));
