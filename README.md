@@ -4,13 +4,16 @@
 
 ## Stack
 ### Backend
-#### Typescript
-#### NodeJS
-#### Express
+##### Typescript
+##### NodeJS
+##### Express
+##### MongoDB
+##### Redis
+##### JWT
 
 ### Frontend
-#### Typescript
-#### React
-#### Vite
-#### Tailwind
-#### React Hook Form
+##### Typescript
+##### React
+##### Vite
+##### Tailwind
+##### React Hook Form
