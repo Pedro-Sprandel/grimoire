@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useBook } from "../hooks/useBook";
 import { useImageLoader } from "../hooks/useImageLoader";
-import AddReviewForm from "../components/AddReviewForm";
+import ReviewsList from "../components/ReviewsList";
 
 const BookPage: React.FC = () => {
   const { id = "" } = useParams<{ id: string }>();
@@ -46,7 +46,8 @@ const BookPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <AddReviewForm bookId={id} />
+      {/* <AddReviewForm bookId={id} /> */}
+      <ReviewsList bookId={id} />
     </div>
   );
 };

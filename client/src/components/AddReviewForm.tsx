@@ -10,9 +10,11 @@ interface ReviewFormData {
 
 interface AddReviewFormProps {
   bookId: string;
+  onCancel: () => void;
+  onSubmit: () => void;
 }
 
-const AddReviewForm: React.FC<AddReviewFormProps> = ({ bookId }) => {
+const AddReviewForm: React.FC<AddReviewFormProps> = ({ bookId, onCancel, onSubmit }) => {
   const { submitReview, loading } = useSubmitReview();
   const { handleSubmit, control, register, reset } = useForm<ReviewFormData>({
     defaultValues: {
@@ -21,17 +23,17 @@ const AddReviewForm: React.FC<AddReviewFormProps> = ({ bookId }) => {
     }
   });
 
-  const onSubmit = (data: ReviewFormData) => {
-    submitReview(bookId, data.rating, data.title, data.comment);
+  const submit = async (data: ReviewFormData) => {
+    await submitReview(bookId, data.rating, data.title, data.comment);
+    onSubmit();
     reset();
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(submit)}
       className="max-w-4xl w-full bg-gray-300 shadow-md rounded-lg p-6"
     >
-      <p className="text-lg mb-4">Add review</p>
 
       <Controller
         name="rating"
@@ -57,13 +59,21 @@ const AddReviewForm: React.FC<AddReviewFormProps> = ({ bookId }) => {
         placeholder="Write your review here..."
       ></textarea>
 
-      <button
-        type="submit"
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        disabled={loading}
-      >
-        {loading ? "Submitting..." : "Submit Review"}
-      </button>
+      <div className="flex gap-4">
+        <button
+          type="submit"
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={loading}
+        >
+          {loading ? "Submitting..." : "Submit Review"}
+        </button>
+        <button
+          className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+          onClick={onCancel}
+        >
+          Cancel
+        </button>
+      </div>
 
     </form>
   );
