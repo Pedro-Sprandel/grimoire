@@ -4,5 +4,5 @@ export type Review = {
   comment?: string;
   createdAt: string;
   bookId: string;
-  userId: string;
+  userId: string | { _id: string; username: string };
 };

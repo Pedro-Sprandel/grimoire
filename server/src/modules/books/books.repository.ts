@@ -27,7 +27,7 @@ export const getUserBooks = (userId: string) => {
 };
 
 export const getAllBookReviewsById = async (bookId: string) => {
-  return ReviewModel.find({ bookId });
+  return ReviewModel.find({ bookId }).populate("userId", "username");
 };
 
 export const getReviewByUserAndBookId = async (

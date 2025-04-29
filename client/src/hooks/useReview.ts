@@ -39,8 +39,12 @@ export const useSubmitReview = () => {
   return { submitReview, loading, error };
 };
 
+type ReviewWithUsername = Omit<Review, "userId"> & {
+  userId: { username: "string" };
+};
+
 export const useReviews = (bookId: string) => {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<ReviewWithUsername[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

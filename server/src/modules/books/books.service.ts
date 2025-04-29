@@ -7,6 +7,7 @@ import {
   getReviewByUserAndBookId,
   getUserBooks
 } from "./books.repository.ts";
+import logger from "../../utils/logger.ts";
 
 export const getBooksService = async () => {
   const BOOKS_CACHE_KEY = "books";
