@@ -43,18 +43,31 @@ type ReviewWithUsername = Omit<Review, "userId"> & {
   userId: { username: "string" };
 };
 
-export const useReviews = (bookId: string) => {
+const calculateAverageRating = (reviews: ReviewWithUsername[]) => {
+  const averageRating = reviews.reduce((total, item) => total + item.rating, 0) / reviews.length;
+
+  return averageRating;
+}
+
+export const useReviews = (bookId?: string) => {
   const [reviews, setReviews] = useState<ReviewWithUsername[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [averageRating, setAverageRating] = useState<number | null>(null);
 
   const fetchReviews = useCallback(async () => {
+    if (!bookId) {
+      setReviews([]);
+      return;
+    }
     setLoading(true);
     setError(null);
 
     try {
       const response = await axiosInstance.get(`/books/${bookId}/reviews`);
       setReviews(response.data);
+      const averageRatingAux = calculateAverageRating(response.data);
+      setAverageRating(averageRatingAux);
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.data?.message) {
         setError(`Get all reviews failed: ${err.response.data.message}`);
@@ -70,5 +83,5 @@ export const useReviews = (bookId: string) => {
     fetchReviews();
   }, [bookId, fetchReviews]);
 
-  return { reviews, loading, error, refetch: fetchReviews };
+  return { reviews, loading, error, refetch: fetchReviews, averageRating };
 };

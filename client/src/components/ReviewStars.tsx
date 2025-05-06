@@ -6,11 +6,12 @@ interface ReviewStarsProps {
   rating?: number;
   onRatingChange?: (newRating: number) => void;
   fixed?: boolean;
+  total?: number;
 }
 
 const MAX_RATING = 5;
 
-const ReviewStars: React.FC<ReviewStarsProps> = ({ rating = 0, onRatingChange, fixed = false }) => {
+const ReviewStars: React.FC<ReviewStarsProps> = ({ rating = 0, onRatingChange, fixed = false, total = null }) => {
   const [hoveringRating, setHoveringRating] = useState<number>(rating);
   const [selectedRating, setSelectedRating] = useState<number>(rating);
 
@@ -37,7 +38,7 @@ const ReviewStars: React.FC<ReviewStarsProps> = ({ rating = 0, onRatingChange, f
   }
 
   return (
-    <div className="flex h-8 items-center justify-left overflow-hidden">
+    <div className="flex h-8 items-center justify-left overflow-hidden gap-4">
       {[...Array(MAX_RATING)].map((_, index) => (
         <img
           key={index}
@@ -49,6 +50,9 @@ const ReviewStars: React.FC<ReviewStarsProps> = ({ rating = 0, onRatingChange, f
           onClick={() => changeRating(index + 1)}
         />
       ))}
+      {total && (
+        <p>({total})</p>
+      )}
     </div>
   );
 };

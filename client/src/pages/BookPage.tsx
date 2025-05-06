@@ -2,10 +2,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useBook } from "../hooks/useBook";
 import { useImageLoader } from "../hooks/useImageLoader";
 import ReviewsList from "../components/ReviewsList";
+import { useReviews } from "../hooks/useReview";
+import ReviewStars from "../components/ReviewStars";
 
 const BookPage: React.FC = () => {
   const { id = "" } = useParams<{ id: string }>();
   const { book, loading, error } = useBook(id);
+  const { reviews, averageRating } = useReviews(book?._id);
   const { imageSrc } = useImageLoader(book?.coverImageUrl || "");
   const navigate = useNavigate();
 
@@ -39,6 +42,7 @@ const BookPage: React.FC = () => {
 
           <div className="flex flex-col justify-between">
             <h1 className="text-3xl font-bold text-gray-800">{book.title}</h1>
+            <ReviewStars rating={averageRating} total={reviews.length} fixed />
             <p className="text-lg text-gray-600 mt-2">
               <span className="font-semibold">Authors:</span> {book.authors.join(", ")}
             </p>

@@ -6,6 +6,7 @@ export const insertUser = async (
   password: string
 ) => {
   const user = new User({ username, email, password });
+
   return await user.save();
 };
 
