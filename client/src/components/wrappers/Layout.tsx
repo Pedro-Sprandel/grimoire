@@ -7,9 +7,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       <header className="bg-gray-800 text-white p-4">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">Grimoire</h1>
+          <Link to="/" className="text-xl font-bold hover:text-gray-300 transition-colors">
+            Grimoire
+          </Link>
           <nav>
-            <Link to="/" className="mr-4">Home</Link>
             <Link to="/login" className="mr-4">Login</Link>
             <Link to="/register">Register</Link>
           </nav>

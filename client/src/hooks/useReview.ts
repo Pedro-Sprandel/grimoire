@@ -44,10 +44,11 @@ type ReviewWithUsername = Omit<Review, "userId"> & {
 };
 
 const calculateAverageRating = (reviews: ReviewWithUsername[]) => {
-  const averageRating = reviews.reduce((total, item) => total + item.rating, 0) / reviews.length;
+  const averageRating =
+    reviews.reduce((total, item) => total + item.rating, 0) / reviews.length;
 
   return averageRating;
-}
+};
 
 export const useReviews = (bookId?: string) => {
   const [reviews, setReviews] = useState<ReviewWithUsername[]>([]);

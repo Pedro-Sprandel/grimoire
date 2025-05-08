@@ -42,7 +42,7 @@ const BookPage: React.FC = () => {
 
           <div className="flex flex-col justify-between">
             <h1 className="text-3xl font-bold text-gray-800">{book.title}</h1>
-            <ReviewStars rating={averageRating} total={reviews.length} fixed />
+            <ReviewStars rating={averageRating ?? 0} total={reviews.length} fixed />
             <p className="text-lg text-gray-600 mt-2">
               <span className="font-semibold">Authors:</span> {book.authors.join(", ")}
             </p>
@@ -50,7 +50,6 @@ const BookPage: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* <AddReviewForm bookId={id} /> */}
       <ReviewsList bookId={id} />
     </div>
   );
