@@ -13,7 +13,7 @@ const BookPage: React.FC = () => {
   const navigate = useNavigate();
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return <div className="min-h-screen bg-gray-700 text-white flex justify-center items-center h-screen">Loading...</div>;
   };
 
   if (error) {
