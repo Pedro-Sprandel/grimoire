@@ -42,17 +42,26 @@ export const getBookByIdController = async (
   }
 };
 
-export const getAllReviewsController = async (
+export const getReviewsController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const userId = typeof req.query.userId === "string" ? req.query.userId : null;
     const bookId = req.params.bookId;
 
-    const books = await getAllBookReviewsByIdService(bookId);
+    let userReview = null;
+    let reviews = null;
 
-    res.status(200).json(books);
+    if (userId) {
+      userReview = await getUserReview(userId, bookId);
+    } else {
+      reviews = await getAllBookReviewsByIdService(bookId);
+    }
+
+
+    res.status(200).json({ reviews, userReview });
   } catch (error) {
     next(error);
   }

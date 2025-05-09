@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import axiosInstance from "../axiosInstance";
 import { Review } from "../types/Review";
+import { useAuth } from "./useAuth";
 
 export const useSubmitReview = () => {
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,7 @@ const calculateAverageRating = (reviews: ReviewWithUsername[]) => {
 };
 
 interface UseReviewsState {
+  currentUserReview: ReviewWithUsername | null;
   reviews: ReviewWithUsername[];
   loading: boolean;
   error: string | null;
@@ -58,7 +60,9 @@ interface UseReviewsState {
 }
 
 export const useReviews = (bookId?: string) => {
+  const { user } = useAuth();
   const [state, setState] = useState<UseReviewsState>({
+    currentUserReview: null,
     reviews: [],
     loading: !!bookId,
     error: null,
@@ -69,6 +73,7 @@ export const useReviews = (bookId?: string) => {
     if (!bookId) {
       setState(prev => prev.reviews.length === 0 ? prev : {
         ...prev,
+        currentUserReview: null,
         reviews: [],
         averageRating: null
       });
@@ -78,10 +83,14 @@ export const useReviews = (bookId?: string) => {
 
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
-      const response = await axiosInstance.get(`/books/${bookId}/reviews`);
-      const averageRating = calculateAverageRating(response.data);
+      const response = await axiosInstance.get(`/books/${bookId}/reviews`, {
+        params: { userId: user }
+      });
+      const averageRating = calculateAverageRating(response.data.reviews);
+      console.log(response);
       setState({
-        reviews: response.data,
+        currentUserReview: response.data.currentUserReview,
+        reviews: response.data.reviews,
         loading: false,
         error: null,
         averageRating

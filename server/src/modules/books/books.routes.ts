@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   addReviewController,
-  getAllReviewsController,
+  getReviewsController,
   getBookByIdController,
   getBooksController
 } from "./books.controller.ts";
@@ -16,7 +16,7 @@ router.get("/:id", validateMongoIdFromParam, getBookByIdController);
 router.get(
   "/:bookId/reviews",
   validateMongoIdFromParam,
-  getAllReviewsController
+  getReviewsController
 );
 router.get("/:bookId/reviews/mine", getUserReviewController);
 router.post("/:bookId/reviews", validateAddReviewBody, addReviewController);
