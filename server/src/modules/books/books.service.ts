@@ -61,6 +61,7 @@ export const getBookByIdService = async (id: string) => {
 
 export const getUserReview = async (userId: string, bookId: string) => {
   const review = await getReviewByUserAndBookId(userId, bookId);
+  console.log(review, userId);
   if (!review) {
     throw createHttpError(404, "User not found");
   }

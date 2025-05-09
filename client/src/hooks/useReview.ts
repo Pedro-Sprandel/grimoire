@@ -84,12 +84,11 @@ export const useReviews = (bookId?: string) => {
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
       const response = await axiosInstance.get(`/books/${bookId}/reviews`, {
-        params: { userId: user }
+        params: { userId: user?.id }
       });
       const averageRating = calculateAverageRating(response.data.reviews);
-      console.log(response);
       setState({
-        currentUserReview: response.data.currentUserReview,
+        currentUserReview: response.data.userReview,
         reviews: response.data.reviews,
         loading: false,
         error: null,
@@ -101,7 +100,7 @@ export const useReviews = (bookId?: string) => {
         : "Get all reviews failed";
       setState(prev => (prev.error === error ? prev : { ...prev, error, loading: false }));
     }
-  }, [bookId]);
+  }, [bookId, user]);
 
   useEffect(() => {
     const abortController = new AbortController();
