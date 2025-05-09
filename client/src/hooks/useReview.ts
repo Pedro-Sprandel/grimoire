@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import axiosInstance from "../axiosInstance";
 import { Review } from "../types/Review";
@@ -39,7 +39,7 @@ export const useSubmitReview = () => {
   return { submitReview, loading, error };
 };
 
-type ReviewWithUsername = Omit<Review, "userId"> & {
+export type ReviewWithUsername = Omit<Review, "userId"> & {
   userId: { username: "string" };
 };
 
@@ -50,39 +50,59 @@ const calculateAverageRating = (reviews: ReviewWithUsername[]) => {
   return averageRating;
 };
 
+interface UseReviewsState {
+  reviews: ReviewWithUsername[];
+  loading: boolean;
+  error: string | null;
+  averageRating: number | null;
+}
+
 export const useReviews = (bookId?: string) => {
-  const [reviews, setReviews] = useState<ReviewWithUsername[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [averageRating, setAverageRating] = useState<number | null>(null);
+  const [state, setState] = useState<UseReviewsState>({
+    reviews: [],
+    loading: !!bookId,
+    error: null,
+    averageRating: null
+  });
 
   const fetchReviews = useCallback(async () => {
     if (!bookId) {
-      setReviews([]);
+      setState(prev => prev.reviews.length === 0 ? prev : {
+        ...prev,
+        reviews: [],
+        averageRating: null
+      });
+
       return;
     }
-    setLoading(true);
-    setError(null);
 
     try {
+      setState(prev => ({ ...prev, loading: true, error: null }));
       const response = await axiosInstance.get(`/books/${bookId}/reviews`);
-      setReviews(response.data);
-      const averageRatingAux = calculateAverageRating(response.data);
-      setAverageRating(averageRatingAux);
+      const averageRating = calculateAverageRating(response.data);
+      setState({
+        reviews: response.data,
+        loading: false,
+        error: null,
+        averageRating
+      });
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.data?.message) {
-        setError(`Get all reviews failed: ${err.response.data.message}`);
-      } else {
-        setError("Get all reviews failed");
-      }
-    } finally {
-      setLoading(false);
+      const error = axios.isAxiosError(err)
+        ? `Failed: ${err.response?.data?.message || err.message}`
+        : "Get all reviews failed";
+      setState(prev => (prev.error === error ? prev : { ...prev, error, loading: false }));
     }
   }, [bookId]);
 
   useEffect(() => {
+    const abortController = new AbortController();
     fetchReviews();
+
+    return () => abortController.abort();
   }, [bookId, fetchReviews]);
 
-  return { reviews, loading, error, refetch: fetchReviews, averageRating };
+  return useMemo(() => ({
+    ...state,
+    refetch: fetchReviews
+  }), [state, fetchReviews]);
 };

@@ -8,7 +8,7 @@ import ReviewStars from "../components/ReviewStars";
 const BookPage: React.FC = () => {
   const { id = "" } = useParams<{ id: string }>();
   const { book, loading, error } = useBook(id);
-  const { reviews, averageRating } = useReviews(book?._id);
+  const { reviews, averageRating, refetch } = useReviews(book?._id);
   const { imageSrc } = useImageLoader(book?.coverImageUrl || "");
   const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ const BookPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <ReviewsList bookId={id} />
+      <ReviewsList reviews={reviews} bookId={id} refetch={refetch} />
     </div>
   );
 };

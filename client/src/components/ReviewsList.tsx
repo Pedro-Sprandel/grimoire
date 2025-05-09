@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { useReviews } from "../hooks/useReview";
 import ReviewStars from "./ReviewStars";
 import AddReviewForm from "./AddReviewForm";
+import { ReviewWithUsername } from "../hooks/useReview";
 
 interface ReviewsListProps {
   bookId: string;
+  reviews: ReviewWithUsername[];
+  refetch: () => void;
 }
 
-const ReviewsList: React.FC<ReviewsListProps> = ({ bookId }) => {
+const ReviewsList: React.FC<ReviewsListProps> = ({ bookId, reviews, refetch }) => {
   const [addReviewMode, setAddReviewMode] = useState(false);
-  const { reviews, refetch } = useReviews(bookId);
 
   return (
     <div className="bg-gray-300 w-full max-w-4xl rounded-lg">
