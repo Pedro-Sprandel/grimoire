@@ -21,22 +21,9 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  },
-  books: [{
-    bookId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Book"
-    },
-    title: String,
-    checkoutDate: {
-      type: Date,
-      default: Date.now
-    },
-    returnDate: Date
-  }]
+  }
 });
 
 const User = mongoose.model("User", userSchema);
 
 export default User;
-

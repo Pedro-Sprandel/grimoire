@@ -1,3 +1,5 @@
+import axiosInstance from "../axiosInstance";
+
 export const loginService = async (email: string, password: string) => {
   try {
     const response = await fetch("http://localhost:3000/api/login", {
@@ -20,4 +22,16 @@ export const loginService = async (email: string, password: string) => {
       throw new Error("Unknown error");
     }
   }
+};
+
+export const register = async (
+  email: string,
+  username: string,
+  password: string
+) => {
+  await axiosInstance.post("http://localhost:3000/api/register", {
+    email,
+    username,
+    password
+  });
 };

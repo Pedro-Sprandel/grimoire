@@ -1,9 +1,10 @@
 import { useState, ReactNode, useEffect } from "react";
-import { AuthContext } from "./authContext";
+import { AuthContext } from "../contexts/authContext";
 import { loginService } from "../services/authService";
+import axiosInstance from "../axiosInstance";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ id: string; } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,30 +27,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    await fetch("http://localhost:3000/api/logout", {
-      method: "POST",
-      credentials: "include"
-    });
+    await axiosInstance.post("http://localhost:3000/api/logout", {}, { withCredentials: true });
     setUser(null);
   };
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/me", {
-        credentials: "include"
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user");
-      }
-
-      const data = await response.json();
-      setUser(data);
+      const response = await axiosInstance.get("http://localhost:3000/api/me");
+      setUser({ id: response.data.user });
     } catch (_) {
       setUser(null);
     }
   };
 
+  console.log(user);
   const value = {
     user,
     isAuthenticated: !!user,

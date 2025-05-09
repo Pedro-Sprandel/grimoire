@@ -1,22 +1,63 @@
+import createHttpError from "http-errors";
 import BookModel from "../../models/BookModel.ts";
-import redisClient from "../../redisClient.ts";
-import logger from "../../utils/logger.ts";
-
-const CACHE_KEY = "books";
+import ReviewModel from "../../models/ReviewModel.ts";
+import User from "../../models/UserModel.ts";
+import { getFromCache, setToCache } from "../../utils/cache.ts";
 
 export const getBooks = async () => {
-  const cachedBooks = await redisClient.get(CACHE_KEY);
+  const cachedBooks = await getFromCache("books");
 
   if (cachedBooks) {
-    logger.info("Cache hit for books");
-    return JSON.parse(cachedBooks);
+    return cachedBooks;
   }
-
-  logger.info("Cache miss for books");
 
   const books = await BookModel.find();
 
-  await redisClient.set(CACHE_KEY, JSON.stringify(books));
+  setToCache("books", books);
 
   return books;
+};
+
+export const getBookById = async (id: string) => {
+  return BookModel.findById(id);
+};
+
+export const getUserBooks = (userId: string) => {
+  return User.findById(userId).select("books");
+};
+
+export const getAllBookReviewsById = async (bookId: string) => {
+  return ReviewModel.find({ bookId }).populate("userId", "username");
+};
+
+export const getReviewByUserAndBookId = async (
+  userId: string,
+  bookId: string
+) => {
+  return ReviewModel.findOne({ userId, bookId });
+};
+
+export const addReview = async (payload: {
+  userId: string;
+  bookId: string;
+  title?: string;
+  comment?: string;
+  rating: number;
+}) => {
+  const existingReview = await ReviewModel.findOne({
+    bookId: payload.bookId,
+    userId: payload.userId
+  });
+
+  if (existingReview) {
+    throw createHttpError(400, "You have already reviewed this book");
+  }
+
+  return ReviewModel.create({
+    userId: payload.userId,
+    bookId: payload.bookId,
+    title: payload.title,
+    comment: payload.comment,
+    rating: payload.rating
+  });
 };
