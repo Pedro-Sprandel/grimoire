@@ -1,8 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import createHttpError from "http-errors";
 import { isValidObjectId } from "mongoose";
-import { validateUniqueBookForUser } from "./books.service.ts";
-import logger from "../../utils/logger.ts";
 
 const VALID_RATINGS = new Set([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]);
 
@@ -26,13 +24,6 @@ export const validateAddReviewBody = async (
 
   if (!isValidObjectId(bookId)) {
     return next(createHttpError(400, "Invalid book ID format"));
-  }
-
-  try {
-    await validateUniqueBookForUser(userId, bookId);
-  } catch (error) {
-    logger.error("Error checking book Id uniqueness: ", error);
-    return next(error);
   }
 
   if (!VALID_RATINGS.has(rating)) {

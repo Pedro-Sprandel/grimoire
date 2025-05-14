@@ -4,10 +4,8 @@ import {
   getAllBookReviewsById,
   getBookById,
   getBooks,
-  getReviewByUserAndBookId,
-  getUserBooks
+  getReviewByUserAndBookId
 } from "./books.repository.ts";
-import logger from "../../utils/logger.ts";
 
 export const getBooksService = async () => {
   const BOOKS_CACHE_KEY = "books";
@@ -61,7 +59,6 @@ export const getBookByIdService = async (id: string) => {
 
 export const getUserReview = async (userId: string, bookId: string) => {
   const review = await getReviewByUserAndBookId(userId, bookId);
-  console.log(review, userId);
   if (!review) {
     throw createHttpError(404, "User not found");
   }
@@ -77,21 +74,4 @@ export const getAllBookReviewsByIdService = async (bookId: string) => {
   }
 
   return books;
-};
-
-export const validateUniqueBookForUser = async (
-  userId: string,
-  bookId: string
-) => {
-  const user = await getUserBooks(userId);
-  if (!user) {
-    throw createHttpError(404, "User not found");
-  }
-
-  const bookExists = user.books.some(
-    (book) => book.bookId.toString() === bookId
-  );
-  if (bookExists) {
-    throw createHttpError(409, "Book ID must be unique for this user");
-  }
 };
