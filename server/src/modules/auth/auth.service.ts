@@ -9,7 +9,7 @@ export const registerUser = async (
   email: string,
   password: string
 ) => {
-  if (!username || !password) {
+  if (!username || !email || !password) {
     throw createHttpError(400, "Credentials required");
   }
 
@@ -17,7 +17,7 @@ export const registerUser = async (
   if (existingUser) {
     throw createHttpError(409, "Username or email already exists");
   }
-
+  console.log("CHEGOU AQUI!");
   const hashedPassword = await bcrypt.hash(password, 10);
 
   return await insertUser(username, email, hashedPassword);

@@ -2,9 +2,10 @@ import { useState, ReactNode, useEffect } from "react";
 import { AuthContext } from "../contexts/authContext";
 import { loginService } from "../services/authService";
 import axiosInstance from "../axiosInstance";
+import axios from "axios";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<{ id: string; } | null>(null);
+  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,20 +28,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = async () => {
-    await axiosInstance.post("http://localhost:3000/api/logout", {}, { withCredentials: true });
+    await axiosInstance.post(
+      "http://localhost:3000/api/logout",
+      {},
+      { withCredentials: true }
+    );
     setUser(null);
   };
 
   const fetchUser = async () => {
     try {
       const response = await axiosInstance.get("http://localhost:3000/api/me");
-      setUser({ id: response.data.user });
-    } catch (_) {
+      setUser({ id: response.data.user, email: response.data.email ?? null });
+    } catch (err) {
       setUser(null);
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        throw new Error(err.response.data.message);
+      } else {
+        console.error(err);
+        throw new Error("Unknown error at fetchUser");
+      }
     }
   };
 
-  console.log(user);
   const value = {
     user,
     isAuthenticated: !!user,
@@ -54,9 +64,5 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return <div>Loading...</div>;
   }
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

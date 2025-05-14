@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { showNotification } from "../utils/showNotification";
 import { register } from "../services/authService";
+import { useAuth } from "../hooks/useAuth";
 
 const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { fetchUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       await register(email, username, password);
+      await fetchUser();
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {
@@ -27,10 +30,15 @@ const RegisterPage: React.FC = () => {
   return (
     <div className="bg-gray-700 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md p-8 bg-white rounded shadow-md">
-        <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">Register</h2>
+        <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">
+          Register
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="username"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
               Username
             </label>
             <input
@@ -44,7 +52,10 @@ const RegisterPage: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
               Email
             </label>
             <input
@@ -58,7 +69,10 @@ const RegisterPage: React.FC = () => {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
