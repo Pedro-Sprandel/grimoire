@@ -57,8 +57,8 @@ export const getReviewsController = async (
     if (userId) {
       userReview = await getUserReview(userId, bookId);
     }
-    reviews = await getAllBookReviewsByIdService(bookId);
 
+    reviews = await getAllBookReviewsByIdService(bookId);
 
     res.status(200).json({ reviews, userReview });
   } catch (error) {

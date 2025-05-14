@@ -6,7 +6,7 @@ const VALID_RATINGS = new Set([0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]);
 
 export const validateAddReviewBody = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ) => {
   const bookId = req.params.bookId;

@@ -86,11 +86,11 @@ export const useReviews = (bookId?: string) => {
     }
 
     try {
-      console.log(user);
       setState((prev) => ({ ...prev, loading: true, error: null }));
       const response = await axiosInstance.get(`/books/${bookId}/reviews`, {
         params: { userId: user?.id }
       });
+      console.log(response);
       const averageRating = calculateAverageRating(response.data.reviews);
       setState({
         currentUserReview: response.data.userReview,

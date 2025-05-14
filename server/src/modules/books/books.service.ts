@@ -59,19 +59,16 @@ export const getBookByIdService = async (id: string) => {
 
 export const getUserReview = async (userId: string, bookId: string) => {
   const review = await getReviewByUserAndBookId(userId, bookId);
-  if (!review) {
-    throw createHttpError(404, "User not found");
-  }
 
-  return review;
+  return review || null;
 };
 
 export const getAllBookReviewsByIdService = async (bookId: string) => {
-  const books = await getAllBookReviewsById(bookId);
+  const reviews = await getAllBookReviewsById(bookId);
 
-  if (!books) {
+  if (!reviews) {
     throw createHttpError(404, "Reviews not found");
   }
 
-  return books;
+  return reviews;
 };

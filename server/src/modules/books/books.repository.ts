@@ -34,7 +34,7 @@ export const getReviewByUserAndBookId = async (
   userId: string,
   bookId: string
 ) => {
-  return ReviewModel.findOne({ userId, bookId });
+  return ReviewModel.findOne({ userId, bookId }).populate("userId", "username");
 };
 
 export const addReview = async (payload: {
