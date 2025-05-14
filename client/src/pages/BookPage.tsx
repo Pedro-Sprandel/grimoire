@@ -8,13 +8,19 @@ import ReviewStars from "../components/ReviewStars";
 const BookPage: React.FC = () => {
   const { id = "" } = useParams<{ id: string }>();
   const { book, loading, error } = useBook(id);
-  const { currentUserReview, reviews, averageRating, refetch } = useReviews(book?._id);
+  const { currentUserReview, reviews, averageRating, refetch } = useReviews(
+    book?._id
+  );
   const { imageSrc } = useImageLoader(book?.coverImageUrl || "");
   const navigate = useNavigate();
 
   if (loading) {
-    return <div className="min-h-screen bg-gray-700 text-white flex justify-center items-center h-screen">Loading...</div>;
-  };
+    return (
+      <div className="min-h-screen bg-gray-700 text-white flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   if (error) {
     navigate("/404");
@@ -42,15 +48,25 @@ const BookPage: React.FC = () => {
 
           <div className="flex flex-col justify-between">
             <h1 className="text-3xl font-bold text-gray-800">{book.title}</h1>
-            <ReviewStars rating={averageRating ?? 0} total={reviews.length} fixed />
+            <ReviewStars
+              rating={averageRating ?? 0}
+              total={reviews.length}
+              fixed
+            />
             <p className="text-lg text-gray-600 mt-2">
-              <span className="font-semibold">Authors:</span> {book.authors.join(", ")}
+              <span className="font-semibold">Authors:</span>{" "}
+              {book.authors.join(", ")}
             </p>
             <p className="text-gray-700 mt-4">{book.description}</p>
           </div>
         </div>
       </div>
-      <ReviewsList currentUserReview={currentUserReview} reviews={reviews} bookId={id} refetch={refetch} />
+      <ReviewsList
+        currentUserReview={currentUserReview}
+        reviews={reviews}
+        bookId={id}
+        refetch={refetch}
+      />
     </div>
   );
 };

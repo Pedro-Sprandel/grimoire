@@ -71,18 +71,23 @@ export const useReviews = (bookId?: string) => {
 
   const fetchReviews = useCallback(async () => {
     if (!bookId) {
-      setState(prev => prev.reviews.length === 0 ? prev : {
-        ...prev,
-        currentUserReview: null,
-        reviews: [],
-        averageRating: null
-      });
+      setState((prev) =>
+        prev.reviews.length === 0
+          ? prev
+          : {
+            ...prev,
+            currentUserReview: null,
+            reviews: [],
+            averageRating: null
+          }
+      );
 
       return;
     }
 
     try {
-      setState(prev => ({ ...prev, loading: true, error: null }));
+      console.log(user);
+      setState((prev) => ({ ...prev, loading: true, error: null }));
       const response = await axiosInstance.get(`/books/${bookId}/reviews`, {
         params: { userId: user?.id }
       });
@@ -98,7 +103,9 @@ export const useReviews = (bookId?: string) => {
       const error = axios.isAxiosError(err)
         ? `Failed: ${err.response?.data?.message || err.message}`
         : "Get all reviews failed";
-      setState(prev => (prev.error === error ? prev : { ...prev, error, loading: false }));
+      setState((prev) =>
+        prev.error === error ? prev : { ...prev, error, loading: false }
+      );
     }
   }, [bookId, user]);
 
@@ -109,8 +116,11 @@ export const useReviews = (bookId?: string) => {
     return () => abortController.abort();
   }, [bookId, fetchReviews]);
 
-  return useMemo(() => ({
-    ...state,
-    refetch: fetchReviews
-  }), [state, fetchReviews]);
+  return useMemo(
+    () => ({
+      ...state,
+      refetch: fetchReviews
+    }),
+    [state, fetchReviews]
+  );
 };

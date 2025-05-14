@@ -9,14 +9,14 @@ const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { fetchUser } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       await register(email, username, password);
-      await fetchUser();
+      await login(email, password);
       navigate("/");
     } catch (err) {
       if (err instanceof Error) {
