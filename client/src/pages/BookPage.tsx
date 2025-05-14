@@ -14,7 +14,6 @@ const BookPage: React.FC = () => {
   const { imageSrc } = useImageLoader(book?.coverImageUrl || "");
   const navigate = useNavigate();
 
-  console.log(currentUserReview, reviews);
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-700 text-white flex justify-center items-center h-screen">

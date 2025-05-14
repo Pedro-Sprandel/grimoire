@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AddReviewForm from "./AddReviewForm";
 import { ReviewWithUsername } from "../hooks/useReview";
-import { ReviewTile } from "./ReviewTile";
+import ReviewTile from "./ReviewTile";
 
 interface ReviewsListProps {
   bookId: string;
@@ -50,7 +50,7 @@ const ReviewsList: React.FC<ReviewsListProps> = ({
           {reviews
             .filter((review) => review._id !== currentUserReview?._id)
             .map((review) => (
-              <ReviewTile review={review} />
+              <ReviewTile key={review.createdAt} review={review} />
             ))}
         </>
       )}

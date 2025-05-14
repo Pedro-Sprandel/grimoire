@@ -5,7 +5,7 @@ interface ReviewTileProps {
   review: ReviewWithUsername
 }
 
-export const ReviewTile: React.FC<ReviewTileProps> = ({ review }) => {
+const ReviewTile: React.FC<ReviewTileProps> = ({ review }) => {
   return (
     <div
       key={review.createdAt}
@@ -24,3 +24,5 @@ export const ReviewTile: React.FC<ReviewTileProps> = ({ review }) => {
     </div>
   );
 };
+
+export default ReviewTile;
